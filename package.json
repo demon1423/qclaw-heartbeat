@@ -1,0 +1,10 @@
+json
+{
+  "name": "qclaw-heartbeat",
+  "version": "1.0.0",
+  "description": "QClaw 容器心跳唤醒脚本",
+  "main": "heartbeat.js",
+  "dependencies": {
+    "ws": "^8.0.0"
+  }
+}
