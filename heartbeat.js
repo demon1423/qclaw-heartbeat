@@ -18,12 +18,15 @@ function fetchAccessToken() {
       app_id: APP_ID,
       app_secret: APP_SECRET,
       device_name: 'OpenClaw-heartbeat',
-      device_info: JSON.stringify({ hostname: 'heartbeat-service', platform: 'linux', arch: 'x64' }),
+      device_info: JSON.stringify({
+        hostname: 'heartbeat-service',
+        platform: 'linux',
+        arch: 'x64',
+      }),
     });
     const req = https.request({
       hostname: API_URL,
       path: '/api/v1/4278',
-``````javascript
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) },
       timeout: 15000,
@@ -55,18 +58,12 @@ async function main() {
   console.log('🚀 QClaw 容器心跳唤醒脚本');
   try {
     const token = await fetchAccessToken();
-    console.log(`✅ 完成！token前10位: ${token.slice(0, 10)}...heartbeat:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-      - name: Install dependencies
-        run: npm install
-      - name: Run heartbeat
-        env:
-          QCLAW_APP_ID: ${{ secrets.QCLAW_APP_ID }}
-          QCLAW_APP_SECRET: ${{ secrets.QCLAW_APP_SECRET }}
-        run: node heartbeat.js
+    console.log(`✅ 完成！token前10位: ${token.slice(0, 10)}...`);
+    console.log('🎉 容器心跳唤醒成功！');
+    process.exit(0);
+  } catch (err) {
+    console.error(`❌ 失败: ${err.message}`);
+    process.exit(1);
+  }
+}
+main();
