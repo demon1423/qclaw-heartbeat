@@ -1,5 +1,6 @@
 ---
 name: QClaw Heartbeat
+
 on:
   schedule:
     - cron: "*/5 * * * *"
@@ -15,10 +16,8 @@ jobs:
         with:
           node-version: "22"
       - name: Install dependencies
-        working-directory: qclaw-heartbeat
         run: npm install
       - name: Run heartbeat
-        working-directory: qclaw-heartbeat
         env:
           QCLAW_APP_ID: ${{ secrets.QCLAW_APP_ID }}
           QCLAW_APP_SECRET: ${{ secrets.QCLAW_APP_SECRET }}
