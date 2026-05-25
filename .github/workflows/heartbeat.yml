@@ -1,0 +1,28 @@
+yaml
+name: QClaw Heartbeat
+
+# 每5分钟运行一次，保持 QClaw 容器活跃
+on:
+  schedule:
+    # cron 表达式：每5分钟（UTC时间）
+    - cron: '*/5 * * * *'
+  # 也支持手动触发（用于测试）
+  workflow_dispatch:
+
+jobs:
+  heartbeat:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'- name: Install dependencies
+        run: cd qclaw-heartbeat && npm install
+
+      - name: Run heartbeat
+        env:
+          QCLAW_APP_ID: ${{ secrets.QCLAW_APP_ID }}
+          QCLAW_APP_SECRET: ${{ secrets.QCLAW_APP_SECRET }}
+        run: cd qclaw-heartbeat && node heartbeat.js
