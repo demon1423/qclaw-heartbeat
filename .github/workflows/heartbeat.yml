@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: "*/5 * * * *"
   workflow_dispatch:
+
 jobs:
   heartbeat:
     runs-on: ubuntu-latest
@@ -14,9 +15,11 @@ jobs:
         with:
           node-version: "22"
       - name: Install dependencies
-        run: cd qclaw-heartbeat && npm install
+        working-directory: qclaw-heartbeat
+        run: npm install
       - name: Run heartbeat
+        working-directory: qclaw-heartbeat
         env:
           QCLAW_APP_ID: ${{ secrets.QCLAW_APP_ID }}
           QCLAW_APP_SECRET: ${{ secrets.QCLAW_APP_SECRET }}
-        run: cd qclaw-heartbeat && node heartbeat.js
+        run: node heartbeat.js
